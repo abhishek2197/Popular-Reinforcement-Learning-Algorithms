@@ -5,7 +5,6 @@ from gym import wrappers
 from gym import spaces, utils
 from gym.envs.toy_text import discrete
 
-
 def value_iterate(env):
 	tot_iterations = 10000
 	gamma = 1
@@ -17,18 +16,24 @@ def value_iterate(env):
 		error_epsilon = 1e-30
 		for s in range(env.nS):
 			qval = [sum([reward + prob*gamma*pre_v[st] for prob, st, reward, _ in env.P[s][a]]) for a in range(env.nA)] 		
-		v[s] = max(qval)		
+			v[s] = max(qval)		
 		error = np.sum(np.fabs(v - pre_v))
 		if(error<= error_epsilon):
 			print "Value Function has converged"
 			break
 	return v
 
+def findpolicy(env, optv):
+	policy = np.zeros(env.nS)
+	gamma = 1	
+	for s in range(env.nS):
+		qval = [sum([reward + prob*gamma*optv[st] for prob, st, reward, _ in env.P[s][a]]) for a in range(env.nA)] 		
+		policy[s] = np.argmax(qval) 		
+	return policy   
 
 
 if __name__ == '__main__':
     env = gym.make('Taxi-v1')
     print env.nS
     optimal_value_function = value_iterate(env)
-    for i in range(int(env.nS):
-         print optimal_value_function[i]
+    optimal_policy = findpolicy(env, optimal_value_function)
