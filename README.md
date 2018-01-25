@@ -1,2 +1,2 @@
-# Popular-reinforcement-Algorithms
-Implementation of Popular Reinforcement Algorithms
+# Popular-Reinforcement-Learning-Algorithms
+Implementation of Popular Reinforcement Learning Algorithms
