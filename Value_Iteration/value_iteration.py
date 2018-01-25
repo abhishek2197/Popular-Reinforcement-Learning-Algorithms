@@ -32,8 +32,32 @@ def findpolicy(env, optv):
 	return policy   
 
 
+def run_policy(env, optimal_policy, render=False):
+	state = env.reset()
+	final_reward = 0
+	index = 0 
+	gamma = 1
+	while True:
+		if render:
+			env.render()
+		state, reward, done, ext = env.step(optimal_policy[state])
+		final_reward += ((gamma**index)*reward)
+		index += 1
+		if done:
+			break
+	return final_reward		
+
+
+
+def policy_evaluate(env, optimal_policy):
+	scores = [run_policy(env, optimal_policy, render = False) for i in range(200)]
+	return np.mean(scores)
+
+
 if __name__ == '__main__':
     env = gym.make('Taxi-v1')
     print env.nS
     optimal_value_function = value_iterate(env)
     optimal_policy = findpolicy(env, optimal_value_function)
+    score = policy_evaluate(env, optimal_policy)
+    print score
