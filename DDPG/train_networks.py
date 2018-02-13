@@ -7,7 +7,7 @@ import replay_memory
 
 gamma = 0.999
 Tau = 0.95
-class training:
+class Training:
 
 	def __init__(self, stdim, acdim, aclim, mem):
 		self.stdim = stdim
