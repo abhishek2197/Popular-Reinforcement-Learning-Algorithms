@@ -2,7 +2,7 @@ import numpy as np
 import os
 import random
 import pandas as pd
-import collections
+from collections import deque
 
 class ReplayMemory:
 
@@ -13,9 +13,9 @@ class ReplayMemory:
 
 	def add_transition(self, st, act, r, st1):
 		self.len+=1
-		if self.len>maxisize:
-			self.len = maxisize
-		self.memory.append(st, act, r, st1)
+		if self.len>self.maxisize:
+			self.len = self.maxisize
+		self.memory.append((st, act, r, st1))
 		
 	def len(self):
 		return self.len			
@@ -26,7 +26,7 @@ class ReplayMemory:
 		actions = []
 		reward = []
 		next_states = []
-		for a in buf:
+		for a in buff:
 			states.append(a[0])
 			actions.append(a[1])
 			reward.append(a[2])
