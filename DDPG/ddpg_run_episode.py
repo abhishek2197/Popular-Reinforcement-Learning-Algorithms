@@ -24,7 +24,9 @@ if __name__ == '__main__':
 		sum_reward = 0
 		print "Episode No - "+i 
 		for j in range(no_of_steps):
-			env.render()
+			if i%100 == 0:
+				env.render()	
+			
 			state = np.float32(obs)
 			action = train_networks.next_action(state)
 
@@ -39,3 +41,5 @@ if __name__ == '__main__':
 			obs = next_obs
 			if done:
 				break
+		avg_reward = sum_reward/no_of_steps
+		print avg_reward		
