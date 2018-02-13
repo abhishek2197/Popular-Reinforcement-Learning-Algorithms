@@ -6,6 +6,7 @@ import policy_neural_networks
 import replay_memory
 
 gamma = 0.999
+Tau = 0.95
 class training:
 
 	def __init__(self, stdim, acdim, aclim, mem):
@@ -52,6 +53,14 @@ class training:
 		self.actor_optimizer.backward()
 		self.actor_optimizer.step()
 
-		
+		for target_par, par in zip(self.target_actor.parameters(), self.actor.parameters()):
+		target_para.data.copy_(
+			para.data*Tau + target_para.data*(1.0-Tau) 
+		)
+
+		for target_par, par in zip(self.target_critic.parameters(), self.critic.parameters()):
+		target_para.data.copy_(
+			para.data*Tau + target_para.data*(1.0-Tau) 
+		)
 
 
