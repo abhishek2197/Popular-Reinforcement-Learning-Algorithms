@@ -63,4 +63,7 @@ class training:
 			para.data*Tau + target_para.data*(1.0-Tau) 
 		)
 
-
+	def next_action(self, state):
+		s = Variable(torch.from_numpy(state))
+		action = self.target_actor.forward(s).detach()
+		return action.data.numpy()
