@@ -66,4 +66,5 @@ class Training:
 	def next_action(self, state):
 		s = Variable(torch.from_numpy(state))
 		action = self.actor.forward(s).detach()
-		return action.data.numpy()
+		new_action = action.data.numpy() + (self.noise.sample() * self.action_lim)
+		return new_action
