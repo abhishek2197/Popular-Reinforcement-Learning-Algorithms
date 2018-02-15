@@ -16,9 +16,9 @@ no_of_episodes = 5000
 no_of_steps = 5000
 
 if __name__ == '__main__':
-	env = gym.make('Walker2d-v1')
+	env = gym.make('Swimmer-v1')
 
-	mem = replay_memory.ReplayMemory(10000000)
+	mem = replay_memory.ReplayMemory(1000000)
 	trainer = train_networks.Training(env.observation_space.shape[0], env.action_space.shape[0], env.action_space.high[0], mem)
 
 	
@@ -27,12 +27,12 @@ if __name__ == '__main__':
 		num_episodes = 0
 		num_steps = 0
 		reward_batch = 0
-		while num_steps < 5000:
+		while num_steps < 1000:
 			obs = env.reset()
 			 
 			reward_sum = 0
-			for k in range(10000):
-					#if i%100 == 0:
+			for k in range(2000):
+				
 				env.render()	
 			
 				state = np.float32(obs)

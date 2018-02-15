@@ -25,7 +25,7 @@ class ActorNetwork(nn.Module):
 		self.thirdlay.weight.data = weight_init(self.thirdlay.weight.data.size())
 
 		self.finallay = nn.Linear(64, acdim)
-		self.finallay.weight.data.uniform_(-0.005, 0.005)
+		self.finallay.weight.data.uniform_(-0.003, 0.003)
 
 	def forward(self, state):
 		out_first = nn.functional.relu(self.firstlay(state))
@@ -54,7 +54,7 @@ class CriticNetwork(nn.Module):
 		self.firstlay_state_action.weight.data = weight_init(self.firstlay_state_action.weight.data.size())
 
 		self.finallay_state_action = nn.Linear(128, 1)
-		self.finallay_state_action.weight.data.uniform_(-0.005, 0.005)
+		self.finallay_state_action.weight.data.uniform_(-0.003, 0.003)
 
 	def forward(self, state, action):
 		out_state_first = nn.functional.relu(self.firstlay_state(state))

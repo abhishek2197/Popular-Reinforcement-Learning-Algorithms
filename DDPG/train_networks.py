@@ -7,7 +7,7 @@ import torch
 import policy_neural_networks
 import replay_memory
 
-gamma = 0.999
+gamma = 0.99
 Tau = 0.001
 class Training:
 
@@ -19,11 +19,11 @@ class Training:
 
 		self.actor = policy_neural_networks.ActorNetwork(self.stdim, self.acdim, self.aclim)
 		self.target_actor = policy_neural_networks.ActorNetwork(self.stdim, self.acdim, self.aclim)
-		self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), 0.004)
+		self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), 0.001)
 
 		self.critic = policy_neural_networks.CriticNetwork(self.stdim, self.acdim)
 		self.target_critic = policy_neural_networks.CriticNetwork(self.stdim, self.acdim)
-		self.critic_optimizer = torch.optim.Adam(self.critic.parameters(), 0.004)
+		self.critic_optimizer = torch.optim.Adam(self.critic.parameters(), 0.001)
 
 		for taract_par, act_par in zip(self.target_actor.parameters(), self.actor.parameters()):
 			taract_par.data.copy_(act_par.data)
@@ -65,5 +65,5 @@ class Training:
 
 	def next_action(self, state):
 		s = Variable(torch.from_numpy(state))
-		action = self.target_actor.forward(s).detach()
+		action = self.actor.forward(s).detach()
 		return action.data.numpy()
