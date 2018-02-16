@@ -13,7 +13,7 @@ from itertools import count
 
 
 no_of_episodes = 5000
-no_of_steps = 10000
+no_of_steps = 100000
 
 if __name__ == '__main__':
 	env = gym.make('Walker2d-v1')
@@ -59,4 +59,6 @@ if __name__ == '__main__':
 		num_episodes += 1
 		reward_batch += reward_sum		
 		average_reward = reward_batch/num_episodes		
-		print "Episode No - "+str(i)+" "+str(average_reward)+""		
+		print "Episode No - "+str(i)+" "+str(average_reward)+""
+		if i%100==0:
+			trainer.save_models(i)		
