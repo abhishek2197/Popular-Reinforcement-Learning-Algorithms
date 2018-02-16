@@ -4,6 +4,7 @@ import os
 from torch.autograd import Variable
 import math
 import torch
+import noise
 import policy_neural_networks
 import replay_memory
 
@@ -16,6 +17,7 @@ class Training:
 		self.acdim = acdim
 		self.aclim = aclim
 		self.mem = mem
+		self.actnoise = noise.OrnsteinUhlenbeckActionNoise(self.acdim)
 
 		self.actor = policy_neural_networks.ActorNetwork(self.stdim, self.acdim, self.aclim)
 		self.target_actor = policy_neural_networks.ActorNetwork(self.stdim, self.acdim, self.aclim)
@@ -66,5 +68,21 @@ class Training:
 	def next_action(self, state):
 		s = Variable(torch.from_numpy(state))
 		action = self.actor.forward(s).detach()
-		new_action = action.data.numpy() + (self.noise.sample() * self.action_lim)
+		new_action = action.data.numpy() + (self.actnoise.sample() * self.aclim)
 		return new_action
+
+	def save_models(self, episode_no):
+		torch.save(self.target_actor.state_dict(), './Models/' + str(episode_no) + '_actor.pt')
+		torch.save(self.target_critic.state_dict(), './Models/' + str(episode_no) + '_critic.pt')
+		print 'Models saved successfully'
+
+	def load_models(self, episode):
+		self.actor.load_state_dict(torch.load('./Models/' + str(episode) + '_actor.pt'))
+		self.critic.load_state_dict(torch.load('./Models/' + str(episode) + '_critic.pt'))
+		for taract_par, act_par in zip(self.target_actor.parameters(), self.actor.parameters()):
+			taract_par.data.copy_(act_par.data)
+
+		for tarcrit_par, crit_par in zip(self.target_critic.parameters(), self.critic.parameters()):
+			tarcrit_par.data.copy_(crit_par.data)
+		
+		print 'Models loaded succesfully'
