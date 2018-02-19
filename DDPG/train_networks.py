@@ -21,7 +21,7 @@ class Training:
 
 		self.actor = policy_neural_networks.ActorNetwork(self.stdim, self.acdim, self.aclim)
 		self.target_actor = policy_neural_networks.ActorNetwork(self.stdim, self.acdim, self.aclim)
-		self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), 0.001)
+		self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), 0.0001)
 
 		self.critic = policy_neural_networks.CriticNetwork(self.stdim, self.acdim)
 		self.target_critic = policy_neural_networks.CriticNetwork(self.stdim, self.acdim)

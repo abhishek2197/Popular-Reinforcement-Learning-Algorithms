@@ -1,5 +1,7 @@
 from __future__ import division
 import gym
+import argparse
+import sys
 import numpy as np 
 import pandas as pd 
 import collections
@@ -12,12 +14,22 @@ import noise
 from itertools import count
 
 
-no_of_episodes = 5000
-no_of_steps = 100000
+no_of_episodes = 1000
+no_of_steps = 250000
+
+parser = argparse.ArgumentParser(description='PyTorch DDPG')
+
+parser.add_argument('--env-name', default="Walker2d-v1", metavar='G',
+                    help='name of the environment to run')
+
+parser.add_argument('--render', action='store_true',
+                    help='render the environment')
+args = parser.parse_args()
+
 
 if __name__ == '__main__':
-	env = gym.make('Walker2d-v1')
 
+	env =  gym.make(args.env_name)
 	mem = replay_memory.ReplayMemory(1000000)
 	trainer = train_networks.Training(env.observation_space.shape[0], env.action_space.shape[0], env.action_space.high[0], mem)
 
@@ -36,9 +48,9 @@ if __name__ == '__main__':
 			 
 		reward_sum = 0
 		for k in range(no_of_steps):
-			if i%10==0:
+			if args.render:
 				env.render()	
-			
+		
 			state = np.float32(obs)
 			action = trainer.next_action(state)
 
