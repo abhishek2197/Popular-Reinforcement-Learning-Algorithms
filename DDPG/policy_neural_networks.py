@@ -59,7 +59,7 @@ class ActorNetwork(nn.Module):
 		out_third = nn.functional.relu(self.thirdlay(out_second))
 		out_final = nn.functional.tanh(self.finallay(out_third))
 
-		return out_final*self.aclim
+		return out_final*float(self.aclim)
 		
 class CriticNetwork(nn.Module):
 	def __init__(self, stdim, acdim):

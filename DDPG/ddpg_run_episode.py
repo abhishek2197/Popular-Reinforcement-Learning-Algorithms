@@ -1,4 +1,6 @@
 from __future__ import division
+import sys
+sys.path.append('/usr/local/lib/python3.6/site-packages')
 import gym
 import argparse
 import sys
@@ -19,7 +21,7 @@ no_of_steps = 250000
 
 parser = argparse.ArgumentParser(description='PyTorch DDPG')
 
-parser.add_argument('--env-name', default="Walker2d-v1", metavar='G',
+parser.add_argument('--env-name', default="Walker2d-v2", metavar='G',
                     help='name of the environment to run')
 
 parser.add_argument('--render', action='store_true',
@@ -71,6 +73,6 @@ if __name__ == '__main__':
 		num_episodes += 1
 		reward_batch += reward_sum		
 		average_reward = reward_batch/num_episodes		
-		print "Episode No - "+str(i)+" "+str(average_reward)+""
+		print ("Episode No - "+str(i)+" "+str(average_reward)+"")
 		if i%100==0:
 			trainer.save_models(i)		
