@@ -1,6 +1,6 @@
 from __future__ import division
-import sys
-sys.path.append('/usr/local/lib/python3.6/site-packages')
+# import sys
+# sys.path.append('/usr/local/lib/python3.6/site-packages')
 import gym
 import argparse
 import sys
