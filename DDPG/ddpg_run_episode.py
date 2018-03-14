@@ -14,22 +14,22 @@ import noise
 from itertools import count
 
 
-no_of_episodes = 1000
-no_of_steps = 250000
 
-parser = argparse.ArgumentParser(description='PyTorch DDPG')
+def main(env_name="Walker2d-v2", render=False, no_of_episodes=1000, no_of_steps=100000):
 
-parser.add_argument('--env-name', default="Walker2d-v1", metavar='G',
-                    help='name of the environment to run')
+	''' no_of_episodes = 10000
+	no_of_steps = 1000000'''
 
-parser.add_argument('--render', action='store_true',
-                    help='render the environment')
-args = parser.parse_args()
+	''' parser = argparse.ArgumentParser(description='PyTorch DDPG')
 
+	parser.add_argument('--env-name', default="Walker2d-v2", metavar='G',
+			    help='name of the environment to run')
 
-if __name__ == '__main__':
+	parser.add_argument('--render', action='store_true',
+			    help='render the environment')
+	args = parser.parse_args()'''
 
-	env =  gym.make(args.env_name)
+	env =  gym.make(env_name)
 	mem = replay_memory.ReplayMemory(1000000)
 	trainer = train_networks.Training(env.observation_space.shape[0], env.action_space.shape[0], env.action_space.high[0], mem)
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 			 
 		reward_sum = 0
 		for k in range(no_of_steps):
-			if args.render:
+			if render:
 				env.render()	
 		
 			state = np.float32(obs)
@@ -71,6 +71,21 @@ if __name__ == '__main__':
 		num_episodes += 1
 		reward_batch += reward_sum		
 		average_reward = reward_batch/num_episodes		
-		print "Episode No - "+str(i)+" "+str(average_reward)+""
+		print ("Episode No - "+str(i)+" "+str(average_reward)+"")
 		if i%100==0:
 			trainer.save_models(i)		
+
+if __name__ == '__main__':
+	no_of_episodes = 10000
+	no_of_steps = 1000000
+
+	parser = argparse.ArgumentParser(description='PyTorch DDPG')
+
+	parser.add_argument('--env-name', default="Walker2d-v2", metavar='G',
+			    help='name of the environment to run')
+
+	parser.add_argument('--render', action='store_true',
+			    help='render the environment')
+	args = parser.parse_args()
+	main(env_name=args.env_name, render=args.render)
+

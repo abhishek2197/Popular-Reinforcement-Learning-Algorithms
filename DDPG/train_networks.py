@@ -74,7 +74,7 @@ class Training:
 	def save_models(self, episode_no):
 		torch.save(self.target_actor.state_dict(), './Models/' + str(episode_no) + '_actor.pt')
 		torch.save(self.target_critic.state_dict(), './Models/' + str(episode_no) + '_critic.pt')
-		print 'Models saved successfully'
+		print ('Models saved successfully')
 
 	def load_models(self, episode):
 		self.actor.load_state_dict(torch.load('./Models/' + str(episode) + '_actor.pt'))
@@ -85,4 +85,4 @@ class Training:
 		for tarcrit_par, crit_par in zip(self.target_critic.parameters(), self.critic.parameters()):
 			tarcrit_par.data.copy_(crit_par.data)
 		
-		print 'Models loaded succesfully'
+		print ('Models loaded succesfully')
